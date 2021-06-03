@@ -3,6 +3,9 @@ from flask_bootstrap import Bootstrap
 from requests.api import request
 import os
 
+from tensorflow.keras.preprocessing import image
+import inference
+
 app = Flask(__name__)
 Bootstrap(app)
 
@@ -14,6 +17,8 @@ def index():
         if uploaded_file.filename != '':
             image_path = os.path.join('static', uploaded_file.filename)
             uploaded_file.save(image_path)
+            class_name = inference.get_prediction(image_path)
+            print('Class Name=', class_name)
     return render_template('index.html')
 
 if __name__ == "__main__":
